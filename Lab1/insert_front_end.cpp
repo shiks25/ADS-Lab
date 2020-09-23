@@ -82,7 +82,7 @@ int main()
   cout<<"--Insert in the beginning--"<<endl;
   cout<<"Enter the number of elements:"<<endl;
   cin>>n;
- cout<<"Enter the elements"<<endl;
+ cout<<"Enter the elements:"<<endl;
   while(n){
   int x;
   cin>>x;
@@ -95,7 +95,7 @@ int main()
     cout<<"--Insert in the end--"<<endl;
   cout<<"Enter the number of elements:"<<endl;
   cin>>n;
- cout<<"Enter the elements"<<endl;
+ cout<<"Enter the elements:"<<endl;
   while(n){
   int x;
   cin>>x;
