@@ -71,30 +71,31 @@ int countIslands(vector<vector<int>>mat)
         { 
           
           if(mat[i][j]){
+		  
             if(i>0 && mat[i-1][j]){
                 d->Union(n*i+j, n*(i-1)+j);
-	      }
+	        }
 	    if(i<m-1 && mat[i+1][j]){
 		d->Union(n*i+j, n*(i+1)+j);
-				}
+		}
 	    if(j>0 && mat[i][j-1]){
 		d->Union(n*i+j, n*i+j-1);
-				}
+		}
             if(j<n-1 && mat[i][j+1]){
 		d->Union(n*i+j, n*i+j+1);
-				}
+		}
 	     if(i>0 && j>0 && mat[i-1][j-1]){
 		d->Union(n*i+j, n*(i-1)+j-1);
-				}
+		}
 	     if(i<m-1 && j<n-1 && mat[i+1][j+1]){
 		d->Union(n*i+j, n*(i+1)+j+1);
-				}
+		}
 	     if(i>0 && j<n-1 && mat[i-1][j+1]){
 		d->Union(n*i+j, n*(i-1)+j+1);
-				}
+		}
 	     if(i<m-1 && j>0 && mat[i+1][j-1]){
 		d->Union(n*i+j, n*(i+1)+j-1);
-				}
+		}
            } 
         }
     } 
