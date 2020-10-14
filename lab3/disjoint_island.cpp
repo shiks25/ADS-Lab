@@ -6,17 +6,17 @@ using namespace std;
 { 
       
     vector<int> parent;
-    int n; 
-      
+    
     public: 
+    int count;
     Disjoint(int n) 
     { 
-        parent.resize(n); 
-        this->n = n; 
-        makeSet(); 
+        parent.resize(n);
+        createSet(n); 
+        count=0;
     } 
   
-    void createSet() 
+    void createSet(int n) 
     { 
         for (int i = 0; i < n; i++) 
             parent[i] = i; 
@@ -24,12 +24,10 @@ using namespace std;
     
     int find(int x) 
     { 
-        if (parent[x] != x) 
-        { 
-            return find(parent[x]); 
-        } 
-  
-        return x; 
+        if(parent[x] != x)
+		return parent[x] = find(parent[x]);;
+		
+        return x;
     } 
 
     void Union(int x, int y) 
@@ -37,64 +35,75 @@ using namespace std;
         int xRep = find(x); 
         int yRep = find(y); 
   
-        if (xRep == yRep) 
-            return; 
-           
-        parent[xRoot] = yRoot; 
-  
+        if(xRep != yRep){
+		parent[xRep] = yRep;
+		count--;
+	}
+        
     } 
+    
+    void setCount(int n){
+		count = n;
+	}
+
+ 
 }; 
 
-int countIslands(vector<vector<int>>m) 
+
+int countIslands(vector<vector<int>>mat) 
 { 
-    int a = m.size(); 
-    int b = m[0].size(); 
-    
-    int *c = new int[a * b]; 
-    int num = 0;
-    
-    Disjoint *d = new Disjoint(a * b); 
- 
-    for (int j = 0; j < a;j++) 
-    { 
-        for (int k = 0; k < b; k++) 
-        { 
-            
-            if (m[j][k]) {
-            
-            int x = d->find(j * b + k); 
+    int m = mat.size(); 
+    int n = mat[0].size(); 
+    int count=0;
+    for(int i=0; i<m; i++){
+	for(int j=0; j<n; j++){
+		if(mat[i][j])
+			count++;
+		}
+	}
   
-            if (c[x] == 0) 
-            { 
-              num++; 
-              c[x]++;
-            } 
-            else
-              {
-               c[x]++; 
-              }
+    Disjoint *d= new Disjoint(n * m); 
+    d->setCount(count);
+    
+    for (int i = 0; i < m; i++) 
+    { 
+        for (int j= 0; j < n; j++) 
+        { 
           
-            if (j + 1 < a && m[j + 1][k] == 1) 
-                d->Union(j * (b) + k, (j + 1) * (b) + k); 
-            if (j - 1 >= 0 && m[j - 1][k] == 1) 
-                d->Union(j * (b) + k,(j - 1) * (b) + k); 
-            if (k + 1 < b && m[j][k + 1] == 1) 
-                d->Union(j * (b) + k,(j) * (b) + k + 1); 
-            if (k - 1 >= 0 && m[j][k - 1] == 1) 
-                d->Union(j * (b) + k,(j) * (b) + k - 1); 
-            if (j + 1 < a && k + 1 < b && m[j + 1][k + 1] == 1) 
-                d->Union(j * (b) + k,(j + 1) * (b) + k + 1); 
-            if (j + 1 < a && k - 1 >= 0 && m[j + 1][k - 1] == 1) 
-                d->Union(j * b + k, (j + 1) * (b) + k - 1); 
-            if (j - 1 >= 0 && k + 1 < b && m[j - 1][k + 1] == 1) 
-                d->Union(j * b + k,(j - 1) * b + k + 1); 
-            if (j - 1 >= 0 && k - 1 >= 0 && m[j - 1][k - 1] == 1) 
-                d->Union(j * b + k,(j - 1) * b + k - 1); 
-           }
-        } 
-   } 
-    return num; 
-} 
+          if(mat[i][j]){
+            if(i>0 && mat[i-1][j]){
+                d->Union(n*i+j, n*(i-1)+j);
+	      }
+	    if(i<m-1 && mat[i+1][j]){
+		d->Union(n*i+j, n*(i+1)+j);
+				}
+	    if(j>0 && mat[i][j-1]){
+		d->Union(n*i+j, n*i+j-1);
+				}
+            if(j<n-1 && mat[i][j+1]){
+		d->Union(n*i+j, n*i+j+1);
+				}
+	     if(i>0 && j>0 && mat[i-1][j-1]){
+		d->Union(n*i+j, n*(i-1)+j-1);
+				}
+	     if(i<m-1 && j<n-1 && mat[i+1][j+1]){
+		d->Union(n*i+j, n*(i+1)+j+1);
+				}
+	     if(i>0 && j<n-1 && mat[i-1][j+1]){
+		d->Union(n*i+j, n*(i-1)+j+1);
+				}
+	     if(i<m-1 && j>0 && mat[i+1][j-1]){
+		d->Union(n*i+j, n*(i+1)+j-1);
+				}
+           } 
+        }
+    } 
+    
+    return d->count;
+    
+    }
+  
+    
 
 int main() 
 { 
