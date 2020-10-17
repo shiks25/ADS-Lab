@@ -190,7 +190,7 @@ int main()
     cout<<endl;
     while(ch!=-1){
     int num;
-    cout<<"\nEnter 1 to insert,2 to delete a node and -1 to exit"<<endl;
+    cout<<"\nEnter 1 to insert, 2 to delete a node and -1 to exit"<<endl;
     cin>>ch;
     if(ch==1){
         cout << "Enter the node to be inserted: "<<endl;
