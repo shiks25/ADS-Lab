@@ -26,6 +26,7 @@ class RBTree
     	RBTree() { root = NULL; } 
     	void insert(int &n); 
     	void printTree();
+    	void levelOrder();
 }; 
 
 void display(Node* root, string indent, bool last) {
@@ -61,6 +62,32 @@ Node* BSTInsert(Node* root, Node *pt)
         	root->right->parent = root; 
     	} 	
     	return root; 
+} 
+void levelOrderHelper(Node *root) 
+{ 
+    	if (root == NULL) 
+        	return; 
+  
+    	std::queue<Node *> q; 
+    	q.push(root); 
+  
+    	while (!q.empty()) 
+    	{ 
+        	Node *temp = q.front(); 
+        	cout << temp->data << ":"; 
+		if(temp->color == 1)
+			cout<<"Black ";
+		else
+			cout<<"Red ";
+        	q.pop(); 
+  
+        	if (temp->left != NULL) 
+            		q.push(temp->left); 
+  
+        	if (temp->right != NULL) 
+            		q.push(temp->right); 
+    	} 
+	cout<<endl;
 } 
 
 void RBTree::rotateLeft(Node *&root, Node *&pt) 
@@ -190,8 +217,11 @@ void RBTree::insert(int &data)
 
 void RBTree::printTree() {
     
+      if(root){
       display(root, "", true);
+      }
 }
+void RBTree::levelOrder()  {  levelOrderHelper(root); } 
   
 int main() 
 { 
@@ -204,8 +234,10 @@ int main()
 	{
 		cin>>key;
 		tree.insert(key);
+		cout << "Level Order Traversal after inserting "<<key<<" : "<<endl; 
+    		tree.levelOrder();
 	}
-	cout << "Levelorder Tree Traversal:"<<endl; 
+	cout << "Tree Traversal of created tree:"<<endl; 
 	 tree.printTree();
      return 0; 
 }
